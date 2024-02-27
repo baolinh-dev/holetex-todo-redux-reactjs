@@ -1,19 +1,27 @@
 import { Col, Row, Input, Typography, Radio, Select, Tag } from "antd";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { searchFilterChange } from "../../redux/actions";
+import { searchFilterChange, statusFilterChange } from "../../redux/actions";
 
 const { Search } = Input;
 
 export default function Filters() {
   const dispatch = useDispatch();
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState(""); 
+  const [filterStatus, setFilterStatus] = useState("All"); 
+
 
   const handleSearchTextChange = (e) => {
     console.log(e.target.value);
     setSearchText(e.target.value); 
     dispatch(searchFilterChange(e.target.value))
-  };
+  }; 
+
+  const handleStatusChange = (e) => {
+    console.log(e.target.value); 
+    setFilterStatus(e.target.value) 
+    dispatch(statusFilterChange(e.target.value))
+  }
 
   return (
     <Row justify="center">
@@ -35,7 +43,7 @@ export default function Filters() {
         >
           Filter By Status
         </Typography.Paragraph>
-        <Radio.Group>
+        <Radio.Group value={filterStatus} onChange={handleStatusChange}>
           <Radio value="All">All</Radio>
           <Radio value="Completed">Completed</Radio>
           <Radio value="Todo">To do</Radio>
